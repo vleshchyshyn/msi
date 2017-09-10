@@ -34,7 +34,7 @@ interface StockRepositoryInterface
      * @throws \Magento\Framework\Validation\ValidationException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function save(StockInterface $stock);
+    public function save(StockInterface $stock): int;
 
     /**
      * Get Stock data by given stockId. If you want to create plugin on get method, also you need to create separate
@@ -44,7 +44,7 @@ interface StockRepositoryInterface
      * @return \Magento\InventoryApi\Api\Data\StockInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get($stockId);
+    public function get($stockId): StockInterface;
 
     /**
      * Find Stocks by given SearchCriteria
