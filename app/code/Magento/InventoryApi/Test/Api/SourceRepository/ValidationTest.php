@@ -53,6 +53,7 @@ class ValidationTest extends WebapiAbstract
     }
 
     /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @return array
      */
     public function dataProviderRequiredFields(): array
@@ -140,6 +141,7 @@ class ValidationTest extends WebapiAbstract
     }
 
     /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @return array
      */
     public function failedValidationDataProvider(): array

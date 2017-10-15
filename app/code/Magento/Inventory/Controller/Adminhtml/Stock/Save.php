@@ -76,37 +76,40 @@ class Save extends Action
     {
         $resultRedirect = $this->resultRedirectFactory->create();
         $requestData = $this->getRequest()->getParams();
-        if ($this->getRequest()->isPost() && !empty($requestData['general'])) {
-            try {
-                $stockId = isset($requestData['general'][StockInterface::STOCK_ID])
-                    ? (int)$requestData['general'][StockInterface::STOCK_ID]
-                    : null;
-                $stockId = $this->processSave($requestData, $stockId);
 
-                $this->messageManager->addSuccessMessage(__('The Stock has been saved.'));
-                $this->processRedirectAfterSuccessSave($resultRedirect, $stockId);
-            } catch (NoSuchEntityException $e) {
-                $this->messageManager->addErrorMessage(__('The Stock does not exist.'));
-                $this->processRedirectAfterFailureSave($resultRedirect);
-            } catch (ValidationException $e) {
-                foreach ($e->getErrors() as $localizedError) {
-                    $this->messageManager->addErrorMessage($localizedError->getMessage());
-                }
-                $this->processRedirectAfterFailureSave($resultRedirect, $stockId);
-            } catch (CouldNotSaveException $e) {
-                $this->messageManager->addErrorMessage($e->getMessage());
-                $this->processRedirectAfterFailureSave($resultRedirect, $stockId);
-            } catch (InputException $e) {
-                $this->messageManager->addErrorMessage($e->getMessage());
-                $this->processRedirectAfterFailureSave($resultRedirect, $stockId);
-            } catch (Exception $e) {
-                $this->messageManager->addErrorMessage(__('Could not save stock.'));
-                $this->processRedirectAfterFailureSave($resultRedirect, $stockId ?? null);
-            }
-        } else {
+        if (!$this->getRequest()->isPost() || empty($requestData['general'])) {
             $this->messageManager->addErrorMessage(__('Wrong request.'));
             $this->processRedirectAfterFailureSave($resultRedirect);
+            return $resultRedirect;
         }
+
+        try {
+            $stockId = isset($requestData['general'][StockInterface::STOCK_ID])
+                ? (int)$requestData['general'][StockInterface::STOCK_ID]
+                : null;
+            $stockId = $this->processSave($requestData, $stockId);
+
+            $this->messageManager->addSuccessMessage(__('The Stock has been saved.'));
+            $this->processRedirectAfterSuccessSave($resultRedirect, $stockId);
+        } catch (NoSuchEntityException $e) {
+            $this->messageManager->addErrorMessage(__('The Stock does not exist.'));
+            $this->processRedirectAfterFailureSave($resultRedirect);
+        } catch (ValidationException $e) {
+            foreach ($e->getErrors() as $localizedError) {
+                $this->messageManager->addErrorMessage($localizedError->getMessage());
+            }
+            $this->processRedirectAfterFailureSave($resultRedirect, $stockId);
+        } catch (CouldNotSaveException $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
+            $this->processRedirectAfterFailureSave($resultRedirect, $stockId);
+        } catch (InputException $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
+            $this->processRedirectAfterFailureSave($resultRedirect, $stockId);
+        } catch (Exception $e) {
+            $this->messageManager->addErrorMessage(__('Could not save stock.'));
+            $this->processRedirectAfterFailureSave($resultRedirect, $stockId ?? null);
+        }
+
         return $resultRedirect;
     }
 
