@@ -41,4 +41,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\ImportExport\Model\Import\SampleFileModuleProvider">
+        <arguments>
+            <argument name="sampleFilesSet" xsi:type="array">
+                <item name="advanced_pricing.csv" xsi:type="string">Magento_ImportExport</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

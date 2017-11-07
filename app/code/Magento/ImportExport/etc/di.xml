@@ -10,10 +10,18 @@
     <preference for="Magento\ImportExport\Model\Export\ConfigInterface" type="Magento\ImportExport\Model\Export\Config" />
     <preference for="Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingErrorAggregatorInterface" type="Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingErrorAggregator" />
     <preference for="Magento\ImportExport\Model\Report\ReportProcessorInterface" type="Magento\ImportExport\Model\Report\Csv" />
+    <preference for="Magento\ImportExport\Api\SampleFileModuleProviderInterface" type="Magento\ImportExport\Model\Import\SampleFileModuleProvider" />
     <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">
                 <item name="importexport" xsi:type="string">Magento_ImportExport</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\ImportExport\Model\Import\SampleFileModuleProvider">
+        <arguments>
+            <argument name="sampleFilesSet" xsi:type="array">
+                <item name="stock_sources.csv" xsi:type="string">Magento_InventoryImportExport</item>
             </argument>
         </arguments>
     </type>

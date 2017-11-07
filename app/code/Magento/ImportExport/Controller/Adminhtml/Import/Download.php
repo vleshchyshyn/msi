@@ -6,6 +6,7 @@
 namespace Magento\ImportExport\Controller\Adminhtml\Import;
 
 use Magento\Framework\Component\ComponentRegistrar;
+use Magento\ImportExport\Api\SampleFileModuleProviderInterface;
 use Magento\ImportExport\Controller\Adminhtml\Import as ImportController;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
@@ -37,6 +38,11 @@ class Download extends ImportController
     protected $fileFactory;
 
     /**
+     * @var ExampleFilePathProviderInterface
+     */
+    protected $sampleFileModuleProvider;
+
+    /**
      * Constructor
      *
      * @param \Magento\Backend\App\Action\Context $context
@@ -50,7 +56,8 @@ class Download extends ImportController
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
         \Magento\Framework\Filesystem\Directory\ReadFactory $readFactory,
-        \Magento\Framework\Component\ComponentRegistrar $componentRegistrar
+        \Magento\Framework\Component\ComponentRegistrar $componentRegistrar,
+        SampleFileModuleProviderInterface $sampleFileModuleProvider
     ) {
         parent::__construct(
             $context
@@ -59,6 +66,7 @@ class Download extends ImportController
         $this->resultRawFactory = $resultRawFactory;
         $this->readFactory = $readFactory;
         $this->componentRegistrar = $componentRegistrar;
+        $this->sampleFileModuleProvider = $sampleFileModuleProvider;
     }
 
     /**
@@ -69,7 +77,8 @@ class Download extends ImportController
     public function execute()
     {
         $fileName = $this->getRequest()->getParam('filename') . '.csv';
-        $moduleDir = $this->componentRegistrar->getPath(ComponentRegistrar::MODULE, self::SAMPLE_FILES_MODULE);
+        $module = $this->sampleFileModuleProvider->getSampleFileModule($fileName);
+        $moduleDir = $this->componentRegistrar->getPath(ComponentRegistrar::MODULE, $module);
         $fileAbsolutePath = $moduleDir . '/Files/Sample/' . $fileName;
         $directoryRead = $this->readFactory->create($moduleDir);
         $filePath = $directoryRead->getRelativePath($fileAbsolutePath);
