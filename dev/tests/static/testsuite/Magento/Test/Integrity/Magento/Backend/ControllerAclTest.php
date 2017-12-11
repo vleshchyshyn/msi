@@ -47,12 +47,19 @@ class ControllerAclTest extends \PHPUnit\Framework\TestCase
     {
         $whitelistedClasses = [];
         $path = sprintf('%s/_files/controller_acl_test_whitelist_*.txt', __DIR__);
+
+        var_dump($path);
+
         foreach (glob($path) as $listFile) {
+            file($listFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
             $whitelistedClasses = array_merge(
                 $whitelistedClasses,
                 file($listFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)
             );
         }
+        var_dump($whitelistedClasses);
+
         foreach ($whitelistedClasses as $item) {
             if (substr($item, 0, 1) === '#') {
                 continue;
