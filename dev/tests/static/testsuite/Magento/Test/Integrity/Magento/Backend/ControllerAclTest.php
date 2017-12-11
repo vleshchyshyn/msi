@@ -94,6 +94,7 @@ class ControllerAclTest extends \PHPUnit\Framework\TestCase
             $className = $controllerClass->getName();
 
             if (!$this->isClassExtendsBackendClass($controllerClass)) {
+                print_r($this->whiteListetBackendControllers);
                 $inheritanceMessage = "Backend controller $className have to inherit " . AbstractAction::class;
                 $errorMessages[] = $inheritanceMessage;
                 continue;
