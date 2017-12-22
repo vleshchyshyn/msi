@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\Inventory\Setup\Operation;
 
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Inventory\Model\ResourceModel\Stock as StockResourceModel;
@@ -56,6 +57,14 @@ class CreateStockTable
                 Table::OPTION_NULLABLE => false,
             ],
             'Stock Name'
+        )->addIndex(
+            $setup->getIdxName(
+                $stockTable,
+                [StockInterface::NAME],
+                AdapterInterface::INDEX_TYPE_FULLTEXT
+            ),
+            [StockInterface::NAME],
+            ['type' => AdapterInterface::INDEX_TYPE_FULLTEXT]
         );
     }
 }
