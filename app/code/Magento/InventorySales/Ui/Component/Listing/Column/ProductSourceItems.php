@@ -93,6 +93,7 @@ class ProductSourceItems extends Column
         if (sizeof($productSourceItems)) {
             /** @var SourceItemInterface $sourceItem */
             foreach ($productSourceItems as $sourceItem) {
+                print_r($sourceItem->getData());
                 $preparedSourceData[] = [
                     'name' => $this->getSourceItemSource((int)$sourceItem->getSourceId())->getName(),
                     'qty' => (float)$sourceItem->getQuantity()
